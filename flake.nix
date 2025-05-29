@@ -25,8 +25,10 @@
         cp -r ${./site}/* $out/
       '';
     in {
+      inherit siteContent;
       default = pkgs.writeShellScriptBin "serve-site" ''
-          exec ${sws}/bin/static-web-server -p 8080 -d ${siteContent}
+          cd ${siteContent}
+          exec ${sws}/bin/static-web-server -p 8661 -d .
         '';
     });
   };
