@@ -10,10 +10,11 @@
   in {
     devShells = eachSystem (system: let
       pkgs = withPkgs system;
+      node = pkgs.nodejs_latest;
     in { 
       default = pkgs.mkShell {
-        packages = [];
-        nativeBuildInputs = with pkgs; [ wrangler ];
+        packages = with pkgs; with node.pkgs; [ prettier eslint just fzf ];
+        nativeBuildInputs = with pkgs; [ node wrangler ];
       };
     });
   };
