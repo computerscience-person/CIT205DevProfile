@@ -13,8 +13,8 @@
       node = pkgs.nodejs_latest;
     in { 
       default = pkgs.mkShell {
-        packages = with pkgs; with node.pkgs; [ prettier eslint just fzf ];
-        nativeBuildInputs = with pkgs; [ node wrangler ];
+        packages = with pkgs; with node.pkgs; [ prettier eslint just fzf graphicsmagick ];
+        nativeBuildInputs = with pkgs; [ node ];
       };
     });
   };
