@@ -14,8 +14,20 @@
     in { 
       default = pkgs.mkShell {
         packages = with pkgs; with node.pkgs; [ prettier eslint just fzf graphicsmagick ];
-        nativeBuildInputs = with pkgs; [ node ];
+        nativeBuildInputs = with pkgs; [ node static-web-server ];
       };
+    });
+    packages = eachSystem (system: let
+      pkgs = withPkgs system;
+      sws = pkgs.static-web-server;
+      siteContent = pkgs.runCommand "site-content" {} ''
+        mkdir -p $out
+        cp -r ${./site}/* $out/
+      '';
+    in {
+      default = pkgs.writeShellScriptBin "serve-site" ''
+          exec ${sws}/bin/static-web-server -p 8080 -d ${siteContent}
+        '';
     });
   };
 }
